@@ -1,15 +1,17 @@
 package co.m800.assgnt.akka;
 
-
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
+import akka.actor.Props;
 import akka.testkit.javadsl.TestKit;
-
-import static org.junit.Assert.assertEquals;
-
+import co.m800.assgnt.akka.actors.Aggregator;
+import co.m800.assgnt.akka.actors.FileParser;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AppTest {
     static ActorSystem system;
@@ -26,12 +28,26 @@ public class AppTest {
     }
 
     @Test
-    public void testGreeterActorSendingOfGreeting() {
-        /*final TestKit testProbe = new TestKit(system);
-        final ActorRef helloGreeter = system.actorOf(Greeter.props("Hello", testProbe.getRef()));
-        helloGreeter.tell(new WhoToGreet("Akka"), ActorRef.noSender());
-        helloGreeter.tell(new Greet(), ActorRef.noSender());
-        Greeting greeting = testProbe.expectMsgClass(Greeting.class);
-        assertEquals("Hello, Akka", greeting.message)*/;
+    public void TheAggregatorClass() {
+        new TestKit(system) {{
+            final ActorRef service =
+                    system.actorOf(Props.create(FileParser.class));
+            final ActorRef probe = getRef();
+
+            List<String> items = new ArrayList<>();
+            items.add("one two three");
+            items.add("moja mbili tatu nne");
+
+            items.stream().forEach(item -> {
+                if (item.trim().equals(items.get(0).trim())) {
+                    service.tell(new Aggregator.StartOfFileEvent(item), probe);
+                } else if (item.trim().equals(items.get(items.size() - 1).trim())) {
+                    service.tell(new Aggregator.EndOfFileEvent(item), probe);
+                } else {
+                    service.tell(new Aggregator.LineEvent(item), probe);
+                }
+                expectNoMsg();
+            });
+        }};
     }
 }
