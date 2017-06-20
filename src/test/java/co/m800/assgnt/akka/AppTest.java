@@ -28,7 +28,7 @@ public class AppTest {
     }
 
     @Test
-    public void TheAggregatorClass() {
+    public void testTheAggregatorClass() {
         new TestKit(system) {{
             final ActorRef service =
                     system.actorOf(Props.create(FileParser.class));
