@@ -2,6 +2,7 @@ package co.m800.assgnt.akka.actors;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import co.m800.assgnt.akka.utils.LogMessages;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,9 +21,8 @@ import java.util.stream.Stream;
  * depending on the parser state
  */
 public class FileParser extends BaseActor {
-    String parserState;
-
     private final ActorRef aggregatorRef;
+
     /**
      * Create Props for an actor of this type.
      *
@@ -64,19 +64,16 @@ public class FileParser extends BaseActor {
         //check if there is any file in predefined directory
         try (Stream<String> stream = Files.lines(parseMessageEvent.file)) {
             ArrayList<String> list = stream.collect(Collectors.toCollection(ArrayList<String>::new));
-            log.info("FileParser actor");
+            log.info(LogMessages.FILE_PARSER_ACTOR);
             for (String line : list) {
                 if (line.trim().equals(list.get(0).trim())) {
-                    parserState = "START-OF-FILE";
-                    log.info("start-of-file Event");
+                    log.info(LogMessages.START_OF_FILE_EVENT);
                     aggregatorRef.tell(new Aggregator.StartOfFileEvent(line), getSelf());//depending on state
                 } else if (line.trim().equals(list.get(list.size() - 1).trim())) {
-                    parserState = "END-OF-FILE";
-                    log.info("end-of-file Event");
+                    log.info(LogMessages.END_OF_FILE_EVENT);
                     aggregatorRef.tell(new Aggregator.EndOfFileEvent(line), getSelf());//depending on state
                 } else {
-                    parserState = "LINE";
-                    log.info("line Event");
+                    log.info(LogMessages.LINE_EVENT);
                     aggregatorRef.tell(new Aggregator.LineEvent(line), getSelf());//depending on state
                 }
             }

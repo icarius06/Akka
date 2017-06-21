@@ -1,6 +1,7 @@
 package co.m800.assgnt.akka.actors;
 
 import akka.actor.Props;
+import co.m800.assgnt.akka.utils.LogMessages;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -68,7 +69,7 @@ public class Aggregator extends BaseActor {
             }
         }).match(LineEvent.class, lineEvent -> {
             if (!StringUtils.isEmpty(lineEvent.line)) {
-                log.info("Aggregator Actor");
+                log.info(LogMessages.AGGREGATOR_ACTOR);
                 wordCount = wordCount + lineEvent.line.trim().split(" ").length;
             }
         }).build();

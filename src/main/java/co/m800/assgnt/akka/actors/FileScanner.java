@@ -2,6 +2,7 @@ package co.m800.assgnt.akka.actors;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import co.m800.assgnt.akka.utils.LogMessages;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -64,14 +65,14 @@ public class FileScanner extends BaseActor {
         this.path = Paths.get(dir);
         try {
             Files.list(path).forEach(file -> {
-                log.info("Processing " + file.getFileName().toString());
+                log.info(LogMessages.PROCESSING + file.getFileName().toString());
                 fileParser.tell(new FileParser.ParseMessageEvent(file), getSelf());
                 filesCount = filesCount + 1;
             });
         } catch (IOException | DirectoryIteratorException exception) {
             System.err.println(exception);
         }
-        log.info("FileScanner Actor");
+        log.info(LogMessages.FILE_SCANNER_ACTOR);
     }
 
     /**
