@@ -38,9 +38,9 @@ public class AppTest {
     @Test
     public void demonstrateFileScannerActorRef() {
         final Props props = FileScanner.props("/home/tulasoft/Documents/sampls"); //test folder
-        final TestActorRef<FileScanner> ref = TestActorRef.create(system, props, "fileScanner1");
-        final FileScanner actor = ref.underlyingActor();
-        assertTrue(actor.testMe());
+        final TestActorRef<FileScanner> testActorRef1 = TestActorRef.create(system, props, "fileScanner1");
+        final FileScanner fileScannerActor = testActorRef1.underlyingActor();
+        assertTrue(fileScannerActor.testMe());
     }
 
     /**
@@ -49,9 +49,9 @@ public class AppTest {
     @Test
     public void demonstrateFileParserActorRef() {
         final Props props = FileParser.props(); //test folder
-        final TestActorRef<FileParser> ref = TestActorRef.create(system, props, "fileParser1");
-        final FileParser actor = ref.underlyingActor();
-        assertTrue(actor.testMe());
+        final TestActorRef<FileParser> testActor2Ref = TestActorRef.create(system, props, "fileParser1");
+        final FileParser fileParserActor = testActor2Ref.underlyingActor();
+        assertTrue(fileParserActor.testMe());
     }
 
     /**
@@ -60,9 +60,9 @@ public class AppTest {
     @Test
     public void demonstrateAggregatorActorRef() {
         final Props props = Aggregator.props(); //test folder
-        final TestActorRef<Aggregator> ref = TestActorRef.create(system, props, "aggregator1");
-        final Aggregator actor = ref.underlyingActor();
-        assertTrue(actor.testMe());
+        final TestActorRef<Aggregator> testActor3Ref = TestActorRef.create(system, props, "aggregator1");
+        final Aggregator aggregatorActor = testActor3Ref.underlyingActor();
+        assertTrue(aggregatorActor.testMe());
     }
 
     /**
@@ -71,7 +71,7 @@ public class AppTest {
     @Test
     public void testAggregatorWordCount() {
         final Props props = Aggregator.props();
-        final TestActorRef<Aggregator> ref = TestActorRef.create(system, props, "aggregatorWordCountTest");
+        final TestActorRef<Aggregator> aggregatorTestActorRef = TestActorRef.create(system, props, "aggregatorWordCountTest");
 
         //line items in file
         List<String> items = new ArrayList<>();
@@ -79,19 +79,19 @@ public class AppTest {
         items.add("2");
         items.add("3 g");
         items.add("4 5 6 g");
-        final Aggregator actor = ref.underlyingActor();
+        final Aggregator aggregatorWordCountActor = aggregatorTestActorRef.underlyingActor();
         items.stream().forEach(item -> {
             if (item.trim().equals(items.get(0).trim())) {
-                ref.tell(new Aggregator.StartOfFileEvent(item), ref);
+                aggregatorTestActorRef.tell(new Aggregator.StartOfFileEvent(item), aggregatorTestActorRef);
             } else if (item.trim().equals(items.get(items.size() - 1).trim())) {
-                ref.tell(new Aggregator.EndOfFileEvent(item), ref);
+                aggregatorTestActorRef.tell(new Aggregator.EndOfFileEvent(item), aggregatorTestActorRef);
             } else {
-                ref.tell(new Aggregator.LineEvent(item), ref);
+                aggregatorTestActorRef.tell(new Aggregator.LineEvent(item), aggregatorTestActorRef);
             }
         });
 
-        //expect 12 words in the 'file'
-        assertEquals(9, actor.testWordCount());
+        //expect 9 words in the 'file'
+        assertEquals(9, aggregatorWordCountActor.testWordCount());
     }
 
     /**
