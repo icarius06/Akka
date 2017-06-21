@@ -11,7 +11,7 @@ import akka.event.LoggingAdapter;
  * Copyright (c) 2017 Tulasoft Creative Studio <code@tulasoftcreative.com>
  * All Rights Reserved.
  * <p>
- * Parent Actor
+ * Base Actor for DRY code
  */
 public class BaseActor extends AbstractActor {
 
@@ -24,9 +24,9 @@ public class BaseActor extends AbstractActor {
     }
 
     /**
-     * Use this method to testRef loaded
+     * Use this method to test if Ref is loaded
      *
-     * @return
+     * @return true/false depending on whether ActorRef is visible to test
      */
     public boolean testMe() {
         return true;

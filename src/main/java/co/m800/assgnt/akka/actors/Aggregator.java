@@ -48,7 +48,6 @@ public class Aggregator extends BaseActor {
      */
     static public class LineEvent {
         public final String line;
-
         public LineEvent(String line) {
             this.line = line;
         }
@@ -83,5 +82,4 @@ public class Aggregator extends BaseActor {
     public long testWordCount() {
         return wordCount;
     }
-
 }

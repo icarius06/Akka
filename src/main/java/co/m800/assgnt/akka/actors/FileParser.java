@@ -58,7 +58,6 @@ public class FileParser extends BaseActor {
      * @param parseMessageEvent
      */
     private void onParseMessage(ParseMessageEvent parseMessageEvent) {
-
         //check if there is any file in predefined directory
         try (Stream<String> stream = Files.lines(parseMessageEvent.file)) {
             ArrayList<String> list = stream.collect(Collectors.toCollection(ArrayList<String>::new));

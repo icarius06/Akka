@@ -18,6 +18,12 @@ import java.nio.file.*;
 public class FileScanner extends BaseActor {
     public Path path;
 
+    /**
+     * Create Props for an actor of this type.
+     *
+     * @param dir The directory to be passed to this actor’s constructor.
+     * @return a Props for creating this actor
+     */
     static public Props props(String dir) {
         return Props.create(FileScanner.class, dir);
     }
@@ -36,7 +42,7 @@ public class FileScanner extends BaseActor {
         fileParser = getContext().actorOf(FileParser.props(), "fileParser");
     }
 
-    //protocol
+    //Protocol
     public static class ScanMessageEvent {
     }
 
