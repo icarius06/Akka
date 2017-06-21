@@ -38,7 +38,7 @@ public class AppTest {
     @Test
     public void demonstrateFileScannerActorRef() {
         final Props props = FileScanner.props("/home/tulasoft/Documents/sampls"); //test folder
-        final TestActorRef<FileScanner> ref = TestActorRef.create(system, props, "fileScanner");
+        final TestActorRef<FileScanner> ref = TestActorRef.create(system, props, "fileScanner1");
         final FileScanner actor = ref.underlyingActor();
         assertTrue(actor.testMe());
     }
@@ -49,7 +49,7 @@ public class AppTest {
     @Test
     public void demonstrateFileParserActorRef() {
         final Props props = FileParser.props(); //test folder
-        final TestActorRef<FileParser> ref = TestActorRef.create(system, props, "fileParser");
+        final TestActorRef<FileParser> ref = TestActorRef.create(system, props, "fileParser1");
         final FileParser actor = ref.underlyingActor();
         assertTrue(actor.testMe());
     }
@@ -60,7 +60,7 @@ public class AppTest {
     @Test
     public void demonstrateAggregatorActorRef() {
         final Props props = Aggregator.props(); //test folder
-        final TestActorRef<Aggregator> ref = TestActorRef.create(system, props, "aggregator");
+        final TestActorRef<Aggregator> ref = TestActorRef.create(system, props, "aggregator1");
         final Aggregator actor = ref.underlyingActor();
         assertTrue(actor.testMe());
     }
@@ -71,7 +71,7 @@ public class AppTest {
     @Test
     public void testAggregatorWordCount() {
         final Props props = Aggregator.props();
-        final TestActorRef<Aggregator> ref = TestActorRef.create(system, props, "aggregator");
+        final TestActorRef<Aggregator> ref = TestActorRef.create(system, props, "aggregatorWordCountTest");
 
         //line items in file
         List<String> items = new ArrayList<>();
@@ -100,7 +100,7 @@ public class AppTest {
     @Test
     public void testFileScannerFilesInDirCount() {
         final Props props = FileScanner.props("/home/tulasoft/Documents/sampls"); //test folder
-        final TestActorRef<FileScanner> ref = TestActorRef.create(system, props, "fileScanner");
+        final TestActorRef<FileScanner> ref = TestActorRef.create(system, props, "fileScannerFilesInDirCount");
         final FileScanner actor = ref.underlyingActor();
         ref.tell(new FileScanner.ScanMessageEvent(), ActorRef.noSender());
         assertEquals(2, actor.testFileCount());

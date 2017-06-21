@@ -2,11 +2,14 @@ package co.m800.assgnt.akka;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
 import co.m800.assgnt.akka.actors.FileScanner;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 /**
  * Created on 6/19/2017.
@@ -21,6 +24,8 @@ import java.util.Scanner;
  * there is any file in predefined directory
  */
 public class App {
+    private static final Logger log = Logger.getLogger(App.class.getName());
+
     public static void main(String[] args) {
         final ActorSystem actorSystem = ActorSystem.create("first-akka");
         try {
@@ -34,8 +39,8 @@ public class App {
                 fileScanner.tell(new FileScanner.ScanMessageEvent(), ActorRef.noSender());
 
                 //#sending message to FileScanner with dir to scan
-                System.out.println("Counting words in log files in \"" + directory + "\"\n");
-                System.out.println(">>> Press ENTER to exit <<<");
+                log.info("Processing log files in \"" + directory + "\"");
+                log.info(">>> Press ENTER to exit <<<");
                 System.in.read();
             } else {
                 System.out.print("\n Directory value cant be empty.");

@@ -64,7 +64,7 @@ public class Aggregator extends BaseActor {
         }).match(EndOfFileEvent.class, endOfFileEvent -> {
             if (!StringUtils.isEmpty(endOfFileEvent.endLine)) {
                 this.wordCount = wordCount + endOfFileEvent.endLine.trim().split(" ").length; //initialise the count
-                System.out.print("\nWords\t" + wordCount + "\n"); //print out results
+                log.info("Words:" + wordCount + "\n"); //print out results
                 getContext().stop(self()); //stop explicitly when done
             }
         }).match(LineEvent.class, lineEvent -> {
