@@ -1,9 +1,9 @@
 # Akka
 My initial attempt at java 8 and Akka toolkit.
-
-Java - Backend - Assignment #1
+<p>
 Akka ( http://akka.io/ ), it’s a powerful asynchronous, actor based, message processing framework.
 This is a small Java application that processes log files, using a few different actors,demostrating use of message parsing and the framework basics.
+</p>
 <ol>
 <li>On application startup (main), you’d create your ActorSystem and eventual actors you need</li>
 <li>The application (main), sends a scan message to a FileScanner actor which will check if there is any file in predefined directory</li>
