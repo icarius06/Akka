@@ -66,4 +66,7 @@ public class FileScanner extends AbstractActor {
 
         log.info("FileScanner Actor");
     }
+
+
+    public boolean testMe() { return true; }
 }

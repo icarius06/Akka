@@ -23,6 +23,8 @@ import java.util.stream.Stream;
  * depending on the parser state
  */
 public class FileParser extends AbstractActor {
+    String parserState;
+
     private final ActorRef aggregatorRef;
 
     static public Props props() {
@@ -69,12 +71,15 @@ public class FileParser extends AbstractActor {
             if (list.size() > 0) {
                 for (String line : list) {
                     if (line.trim().equals(list.get(0).trim())) {
+                        parserState = "START-OF-FILE";
                         log.info("start-of-file Event");
                         aggregatorRef.tell(new Aggregator.StartOfFileEvent(line), getSelf());//depending on state
                     } else if (line.trim().equals(list.get(list.size() - 1).trim())) {
+                        parserState = "END-OF-FILE";
                         log.info("end-of-file Event");
                         aggregatorRef.tell(new Aggregator.EndOfFileEvent(line), getSelf());//depending on state
                     } else {
+                        parserState = "LINE";
                         log.info("line Event");
                         aggregatorRef.tell(new Aggregator.LineEvent(line), getSelf());//depending on state
                     }
@@ -86,5 +91,9 @@ public class FileParser extends AbstractActor {
             e.printStackTrace();
         }
 
+    }
+
+    public boolean testMe() {
+        return true;
     }
 }

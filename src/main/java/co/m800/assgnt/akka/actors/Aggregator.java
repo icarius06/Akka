@@ -78,4 +78,10 @@ public class Aggregator extends AbstractActor {
             }
         }).build();
     }
+
+    public long testWordCount() {
+        return wordCount;
+    }
+
+    public boolean testMe() { return true; }
 }
