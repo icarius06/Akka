@@ -1,10 +1,7 @@
 package co.m800.assgnt.akka.actors;
 
-import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -18,7 +15,7 @@ import java.nio.file.*;
  * <p>
  * The FileScanner actor sends a parse message to a FileParser actor in order to initiate the parsing
  */
-public class FileScanner extends AbstractActor {
+public class FileScanner extends BaseActor {
     public Path path;
 
     static public Props props(String dir) {
@@ -26,7 +23,6 @@ public class FileScanner extends AbstractActor {
     }
 
     private final ActorRef fileParser;
-    private LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
 
     private final String dir;
 
@@ -66,7 +62,4 @@ public class FileScanner extends AbstractActor {
 
         log.info("FileScanner Actor");
     }
-
-
-    public boolean testMe() { return true; }
 }

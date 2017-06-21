@@ -1,9 +1,6 @@
 package co.m800.assgnt.akka.actors;
 
-import akka.actor.AbstractActor;
 import akka.actor.Props;
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -17,9 +14,8 @@ import org.apache.commons.lang3.StringUtils;
  * The Aggregator actor counts the number of words in a file
  * The Aggregator actor prints the number of words in a file in the console when it receives the “end-of-file” event
  */
-public class Aggregator extends AbstractActor {
+public class Aggregator extends BaseActor {
     static long wordCount = 0;
-    private LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
 
     static public Props props() {
         return Props.create(Aggregator.class, () -> new Aggregator());
@@ -73,15 +69,19 @@ public class Aggregator extends AbstractActor {
             }
         }).match(LineEvent.class, lineEvent -> {
             if (!StringUtils.isEmpty(lineEvent.line)) {
-                log.info("\nAggregator Actor");
+                log.info("Aggregator Actor");
                 wordCount = wordCount + lineEvent.line.split(" ").length;
             }
         }).build();
     }
 
+    /**
+     * Returns the wordCount of the file
+     *
+     * @return
+     */
     public long testWordCount() {
         return wordCount;
     }
 
-    public boolean testMe() { return true; }
 }

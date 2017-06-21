@@ -1,10 +1,7 @@
 package co.m800.assgnt.akka.actors;
 
-import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,7 +19,7 @@ import java.util.stream.Stream;
  * The FileParser actor sends different events (“start-of-file”, “line”, “end-of-file”) to an Aggregator actor,
  * depending on the parser state
  */
-public class FileParser extends AbstractActor {
+public class FileParser extends BaseActor {
     String parserState;
 
     private final ActorRef aggregatorRef;
@@ -54,7 +51,6 @@ public class FileParser extends AbstractActor {
         return receiveBuilder().match(ParseMessageEvent.class, this::onParseMessage).build();
     }
 
-    private LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
 
     /**
      * Check if there is any file in a predefined directory
@@ -93,7 +89,4 @@ public class FileParser extends AbstractActor {
 
     }
 
-    public boolean testMe() {
-        return true;
-    }
 }
