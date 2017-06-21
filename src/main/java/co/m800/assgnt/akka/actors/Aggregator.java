@@ -48,6 +48,7 @@ public class Aggregator extends BaseActor {
      */
     static public class LineEvent {
         public final String line;
+
         public LineEvent(String line) {
             this.line = line;
         }
@@ -58,18 +59,18 @@ public class Aggregator extends BaseActor {
         return receiveBuilder().match(StartOfFileEvent.class, startOfFileEvent -> {
             if (!StringUtils.isEmpty(startOfFileEvent.firstLine)) {
                 String firstLine = startOfFileEvent.firstLine;
-                this.wordCount = firstLine.split(" ").length; //initialise the count
+                this.wordCount = firstLine.trim().split(" ").length; //initialise the count
             }
         }).match(EndOfFileEvent.class, endOfFileEvent -> {
             if (!StringUtils.isEmpty(endOfFileEvent.endLine)) {
-                this.wordCount = wordCount + endOfFileEvent.endLine.split(" ").length; //initialise the count
+                this.wordCount = wordCount + endOfFileEvent.endLine.trim().split(" ").length; //initialise the count
                 System.out.print("\nWords\t" + wordCount + "\n"); //print out results
-                getContext().stop(self()); //Poison pill in child actor called when done to stop explicitly
+                getContext().stop(self()); //stop explicitly when done
             }
         }).match(LineEvent.class, lineEvent -> {
             if (!StringUtils.isEmpty(lineEvent.line)) {
                 log.info("Aggregator Actor");
-                wordCount = wordCount + lineEvent.line.split(" ").length;
+                wordCount = wordCount + lineEvent.line.trim().split(" ").length;
             }
         }).build();
     }

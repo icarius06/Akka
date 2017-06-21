@@ -5,6 +5,8 @@ import akka.actor.Props;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created on 6/19/2017.
@@ -32,6 +34,8 @@ public class FileScanner extends BaseActor {
 
     private final String dir;
 
+    private long filesCount;
+
     /**
      * Constructor for Actor
      *
@@ -58,14 +62,24 @@ public class FileScanner extends BaseActor {
      */
     private void onScanMessage(ScanMessageEvent scanMessageEvent) {
         this.path = Paths.get(dir);
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
-            for (Path file : stream) {
+        try {
+            Files.list(path).forEach(file -> {
+                log.info("Processing " + file.getFileName().toString());
                 fileParser.tell(new FileParser.ParseMessageEvent(file), getSelf());
-            }
+                filesCount = filesCount + 1;
+            });
         } catch (IOException | DirectoryIteratorException exception) {
             System.err.println(exception);
         }
-
         log.info("FileScanner Actor");
+    }
+
+    /**
+     * Returns the fileCount of the directory
+     *
+     * @return
+     */
+    public long testFileCount() {
+        return filesCount;
     }
 }

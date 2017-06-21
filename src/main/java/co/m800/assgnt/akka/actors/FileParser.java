@@ -23,7 +23,6 @@ public class FileParser extends BaseActor {
     String parserState;
 
     private final ActorRef aggregatorRef;
-
     /**
      * Create Props for an actor of this type.
      *
@@ -66,26 +65,22 @@ public class FileParser extends BaseActor {
         try (Stream<String> stream = Files.lines(parseMessageEvent.file)) {
             ArrayList<String> list = stream.collect(Collectors.toCollection(ArrayList<String>::new));
             log.info("FileParser actor");
-            //check if the file has any content
-            if (list.size() > 0) {
-                for (String line : list) {
-                    if (line.trim().equals(list.get(0).trim())) {
-                        parserState = "START-OF-FILE";
-                        log.info("start-of-file Event");
-                        aggregatorRef.tell(new Aggregator.StartOfFileEvent(line), getSelf());//depending on state
-                    } else if (line.trim().equals(list.get(list.size() - 1).trim())) {
-                        parserState = "END-OF-FILE";
-                        log.info("end-of-file Event");
-                        aggregatorRef.tell(new Aggregator.EndOfFileEvent(line), getSelf());//depending on state
-                    } else {
-                        parserState = "LINE";
-                        log.info("line Event");
-                        aggregatorRef.tell(new Aggregator.LineEvent(line), getSelf());//depending on state
-                    }
+            for (String line : list) {
+                if (line.trim().equals(list.get(0).trim())) {
+                    parserState = "START-OF-FILE";
+                    log.info("start-of-file Event");
+                    aggregatorRef.tell(new Aggregator.StartOfFileEvent(line), getSelf());//depending on state
+                } else if (line.trim().equals(list.get(list.size() - 1).trim())) {
+                    parserState = "END-OF-FILE";
+                    log.info("end-of-file Event");
+                    aggregatorRef.tell(new Aggregator.EndOfFileEvent(line), getSelf());//depending on state
+                } else {
+                    parserState = "LINE";
+                    log.info("line Event");
+                    aggregatorRef.tell(new Aggregator.LineEvent(line), getSelf());//depending on state
                 }
-            } else {
-                aggregatorRef.tell(new Aggregator.EndOfFileEvent(" "), getSelf());//depending on state
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

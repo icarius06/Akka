@@ -1,5 +1,6 @@
 package co.m800.assgnt.akka;
 
+import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
 import akka.testkit.TestActorRef;
@@ -74,9 +75,10 @@ public class AppTest {
 
         //line items in file
         List<String> items = new ArrayList<>();
-        items.add("one two three"); //first line
-        items.add("moja mbili tatu nne"); //second line
-        items.add("moja mbili tatu nne tano"); //last line
+        items.add("1 s");
+        items.add("2");
+        items.add("3 g");
+        items.add("4 5 6 g");
         final Aggregator actor = ref.underlyingActor();
         items.stream().forEach(item -> {
             if (item.trim().equals(items.get(0).trim())) {
@@ -89,6 +91,18 @@ public class AppTest {
         });
 
         //expect 12 words in the 'file'
-        assertEquals(12, actor.testWordCount());
+        assertEquals(9, actor.testWordCount());
+    }
+
+    /**
+     * Count the number of files in a directory visited
+     */
+    @Test
+    public void testFileScannerFilesInDirCount() {
+        final Props props = FileScanner.props("/home/tulasoft/Documents/sampls"); //test folder
+        final TestActorRef<FileScanner> ref = TestActorRef.create(system, props, "fileScanner");
+        final FileScanner actor = ref.underlyingActor();
+        ref.tell(new FileScanner.ScanMessageEvent(), ActorRef.noSender());
+        assertEquals(2, actor.testFileCount());
     }
 }
