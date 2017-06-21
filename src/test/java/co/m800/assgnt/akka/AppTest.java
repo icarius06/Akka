@@ -91,7 +91,7 @@ public class AppTest {
         });
 
         //expect 9 words in the 'file'
-        assertEquals(9, aggregatorWordCountActor.testWordCount());
+        assertEquals(9, aggregatorWordCountActor.getWordCount());
     }
 
     /**
