@@ -1,7 +1,13 @@
 package co.m800.assgnt.akka.utils;
 
 /**
- * Created by tulasoft on 6/21/17.
+ * Created on 6/21/2017.
+ * By Mike.
+ * First Akka
+ * Copyright (c) 2017 Tulasoft Creative Studio <code@tulasoftcreative.com>
+ * All Rights Reserved.
+ * <p>
+ * Helper class to store LogMessages
  */
 public class LogMessages {
     public static String AGGREGATOR_ACTOR = "Aggregator Actor";

@@ -8,10 +8,12 @@ import akka.testkit.javadsl.TestKit;
 import co.m800.assgnt.akka.actors.Aggregator;
 import co.m800.assgnt.akka.actors.FileParser;
 import co.m800.assgnt.akka.actors.FileScanner;
+import co.m800.assgnt.akka.utils.Helper;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,10 +39,14 @@ public class AppTest {
      */
     @Test
     public void demonstrateFileScannerActorRef() {
-        final Props props = FileScanner.props("/home/tulasoft/Documents/sampls"); //test folder
-        final TestActorRef<FileScanner> testActorRef1 = TestActorRef.create(system, props, "fileScanner1");
-        final FileScanner fileScannerActor = testActorRef1.underlyingActor();
-        assertTrue(fileScannerActor.testMe());
+        try {
+            final Props props = FileScanner.props(Helper.getLogsFolder()); //test folder
+            final TestActorRef<FileScanner> testActorRef1 = TestActorRef.create(system, props, "fileScanner1");
+            final FileScanner fileScannerActor = testActorRef1.underlyingActor();
+            assertTrue(fileScannerActor.testMe());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -79,6 +85,7 @@ public class AppTest {
         items.add("2");
         items.add("3 g");
         items.add("4 5 6 g");
+
         final Aggregator aggregatorWordCountActor = aggregatorTestActorRef.underlyingActor();
         items.stream().forEach(item -> {
             if (item.trim().equals(items.get(0).trim())) {
@@ -99,10 +106,14 @@ public class AppTest {
      */
     @Test
     public void testFileScannerFilesInDirCount() {
-        final Props props = FileScanner.props("/home/tulasoft/Documents/sampls"); //test folder
-        final TestActorRef<FileScanner> ref = TestActorRef.create(system, props, "fileScannerFilesInDirCount");
-        final FileScanner actor = ref.underlyingActor();
-        ref.tell(new FileScanner.ScanMessageEvent(), ActorRef.noSender());
-        assertEquals(2, actor.getFilesCount());
+        try {
+            final Props props = FileScanner.props(Helper.getLogsFolder()); //test folder
+            final TestActorRef<FileScanner> ref = TestActorRef.create(system, props, "fileScannerFilesInDirCount");
+            final FileScanner actor = ref.underlyingActor();
+            ref.tell(new FileScanner.ScanMessageEvent(), ActorRef.noSender());
+            assertEquals(Helper.getNoOfFilesInTestDir(), actor.getFilesCount());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
