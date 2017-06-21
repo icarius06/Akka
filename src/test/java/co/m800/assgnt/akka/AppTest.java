@@ -103,6 +103,6 @@ public class AppTest {
         final TestActorRef<FileScanner> ref = TestActorRef.create(system, props, "fileScannerFilesInDirCount");
         final FileScanner actor = ref.underlyingActor();
         ref.tell(new FileScanner.ScanMessageEvent(), ActorRef.noSender());
-        assertEquals(2, actor.testFileCount());
+        assertEquals(2, actor.getFilesCount());
     }
 }

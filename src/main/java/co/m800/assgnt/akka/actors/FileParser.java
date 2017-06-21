@@ -77,11 +77,9 @@ public class FileParser extends BaseActor {
                     aggregatorRef.tell(new Aggregator.LineEvent(line), getSelf());//depending on state
                 }
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
 }

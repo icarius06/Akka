@@ -24,7 +24,7 @@ public class BaseActor extends AbstractActor {
     }
 
     /**
-     * Use this method to test if Ref is loaded
+     * Use this method to test if Actor is loaded
      *
      * @return true/false depending on whether ActorRef is visible to test
      */

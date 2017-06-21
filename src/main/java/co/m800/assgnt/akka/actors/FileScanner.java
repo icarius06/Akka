@@ -80,7 +80,7 @@ public class FileScanner extends BaseActor {
      *
      * @return
      */
-    public long testFileCount() {
+    public long getFilesCount() {
         return filesCount;
     }
 }
