@@ -14,3 +14,8 @@ This is a small Java application that processes log files, using a few different
 <li>The <i>Aggregator</i> actor counts the number of words in a file</li>
 <li>The <i>Aggregator</i> actor prints the number of words in a file in the console when it receives the “end-of-file” event</li>
 </ol>
+
+# Usage
+<p>You can build the jar file by running this command in the root dir.</p>
+<pre><code>mvn clean package
+</code></pre>
