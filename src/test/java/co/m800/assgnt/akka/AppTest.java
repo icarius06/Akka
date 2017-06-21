@@ -11,12 +11,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.DirectoryIteratorException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,9 +64,8 @@ public class AppTest {
         assertTrue(actor.testMe());
     }
 
-
     /**
-     * We test the Aggregator Actor for inconsitencies in file word count
+     * We test the Aggregator Actor for inconsistencies in file word count
      */
     @Test
     public void testAggregatorWordCount() {
@@ -81,9 +74,9 @@ public class AppTest {
 
         //line items in file
         List<String> items = new ArrayList<>();
-        items.add("one two three");
-        items.add("moja mbili tatu nne");
-        items.add("moja mbili tatu nne tano");
+        items.add("one two three"); //first line
+        items.add("moja mbili tatu nne"); //second line
+        items.add("moja mbili tatu nne tano"); //last line
         final Aggregator actor = ref.underlyingActor();
         items.stream().forEach(item -> {
             if (item.trim().equals(items.get(0).trim())) {
@@ -95,8 +88,7 @@ public class AppTest {
             }
         });
 
+        //expect 12 words in the 'file'
         assertEquals(12, actor.testWordCount());
     }
-
-
 }

@@ -24,6 +24,11 @@ public class FileParser extends BaseActor {
 
     private final ActorRef aggregatorRef;
 
+    /**
+     * Create Props for an actor of this type.
+     *
+     * @return a Props for creating this actor
+     */
     static public Props props() {
         return Props.create(FileParser.class, () -> new FileParser());
     }
@@ -50,7 +55,6 @@ public class FileParser extends BaseActor {
     public Receive createReceive() {
         return receiveBuilder().match(ParseMessageEvent.class, this::onParseMessage).build();
     }
-
 
     /**
      * Check if there is any file in a predefined directory

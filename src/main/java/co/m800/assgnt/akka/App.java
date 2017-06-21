@@ -40,7 +40,6 @@ public class App {
             } else {
                 System.out.print("\n Directory value cant be empty.");
             }
-
         } catch (Exception e) {
             if (e instanceof NoSuchFieldException)
                 System.out.print(e.getMessage()); //handle accordingly
