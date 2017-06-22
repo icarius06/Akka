@@ -17,6 +17,11 @@ import java.util.Properties;
  * Helper class to load properties and other util functions
  */
 public class Helper {
+    /**
+     *
+     * @return a properties object loaded from the config file
+     * @throws IOException
+     */
     private static Properties getProperties() throws IOException {
         Properties properties = new Properties();
         InputStream resourceStream = Helper.class.getClassLoader().getResourceAsStream("config.properties");
