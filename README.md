@@ -16,7 +16,7 @@ This is a small Java application that processes log files, using a few different
 </ol>
 
 # Usage
-<p>Edit config.properties found in resources folder for the tests</p>
+<p>Edit config.properties found in resources folder for the log folders</p>
 <p>You can build the jar file by running this command in the root dir.</p>
 <pre><code>mvn clean package
 </code></pre>
