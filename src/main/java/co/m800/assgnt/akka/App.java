@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  * there is any file in predefined directory
  */
 public class App {
-    private static final Logger log = Logger.getLogger(App.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(App.class.getName());
 
     public static void main(String[] args) {
         final ActorSystem actorSystem = ActorSystem.create("first-akka");
@@ -33,19 +33,19 @@ public class App {
             String directory = Helper.getLogsFolder();
 
             if (!StringUtils.isEmpty(directory)) {
-                log.info("Processing log files in \"" + directory + "\"");
+                LOGGER.info(LogMessages.PROCESSING_LOGS_IN + " \"" + directory + "\"");
                 //#create-file-scanner-actor
                 final ActorRef fileScanner = actorSystem.actorOf(FileScanner.props(directory), "fileScanner");
                 //#sending message to FileScanner with dir to scan
                 fileScanner.tell(new FileScanner.ScanMessageEvent(), ActorRef.noSender());
-                log.info(">>> Press ENTER to exit <<<");
+                LOGGER.info(LogMessages.ENTER_TO_EXIT);
                 System.in.read();
             } else {
-                log.log(Level.SEVERE, LogMessages.EMPTY_LOGS_DIR);
+                LOGGER.log(Level.SEVERE, LogMessages.EMPTY_LOGS_DIR);
             }
         } catch (Exception e) {
             if (e instanceof NoSuchFileException)
-                log.log(Level.SEVERE, LogMessages.MISSING_LOGS_DIR);//handle accordingly
+                LOGGER.log(Level.SEVERE, LogMessages.MISSING_LOGS_DIR);//handle accordingly
             if (e instanceof NoSuchFieldException)
                 System.out.print(e.getMessage()); //handle accordingly
             if (e instanceof IOException)

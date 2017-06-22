@@ -66,14 +66,14 @@ public class FileScanner extends BaseActor {
         this.path = Paths.get(dir);
         try {
             Files.list(path).forEach(file -> {
-                log.info(LogMessages.PROCESSING + file.getFileName().toString());
+                LOGGER.info(LogMessages.PROCESSING + file.getFileName().toString());
                 fileParser.tell(new FileParser.ParseMessageEvent(file), getSelf());
                 filesCount = filesCount + 1;
             });
         } catch (IOException | DirectoryIteratorException exception) {
             System.err.println(exception);
         }
-        log.info(LogMessages.FILE_SCANNER_ACTOR);
+        LOGGER.info(LogMessages.FILE_SCANNER_ACTOR);
     }
 
     /**

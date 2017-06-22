@@ -61,19 +61,18 @@ public class FileParser extends BaseActor {
      * @param parseMessageEvent
      */
     private void onParseMessage(ParseMessageEvent parseMessageEvent) {
-        //check if there is any file in predefined directory
+        LOGGER.info(LogMessages.FILE_PARSER_ACTOR);
         try (Stream<String> stream = Files.lines(parseMessageEvent.file)) {
             ArrayList<String> list = stream.collect(Collectors.toCollection(ArrayList<String>::new));
-            log.info(LogMessages.FILE_PARSER_ACTOR);
             for (String line : list) {
                 if (line.trim().equals(list.get(0).trim())) {
-                    log.info(LogMessages.START_OF_FILE_EVENT);
+                    LOGGER.info(LogMessages.START_OF_FILE_EVENT);
                     aggregatorRef.tell(new Aggregator.StartOfFileEvent(line), getSelf());//depending on state
                 } else if (line.trim().equals(list.get(list.size() - 1).trim())) {
-                    log.info(LogMessages.END_OF_FILE_EVENT);
+                    LOGGER.info(LogMessages.END_OF_FILE_EVENT);
                     aggregatorRef.tell(new Aggregator.EndOfFileEvent(line), getSelf());//depending on state
                 } else {
-                    log.info(LogMessages.LINE_EVENT);
+                    LOGGER.info(LogMessages.LINE_EVENT);
                     aggregatorRef.tell(new Aggregator.LineEvent(line), getSelf());//depending on state
                 }
             }

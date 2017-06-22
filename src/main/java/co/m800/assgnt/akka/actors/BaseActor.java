@@ -16,7 +16,7 @@ import akka.event.LoggingAdapter;
 public class BaseActor extends AbstractActor {
 
     //Use this for logging actor stuff
-    public LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
+    public LoggingAdapter LOGGER = Logging.getLogger(getContext().getSystem(), this);
 
     @Override
     public Receive createReceive() {

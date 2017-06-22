@@ -14,6 +14,8 @@ public class LogMessages {
     public static String FILE_SCANNER_ACTOR = "FileScanner Actor";
     public static String FILE_PARSER_ACTOR = "FileParser Actor";
     public static String PROCESSING = "Processing";
+    public static String PROCESSING_LOGS_IN = "Processing log files in";
+    public static String ENTER_TO_EXIT = ">>> Press ENTER to exit <<<";
     public static String END_OF_FILE_EVENT = "END_OF_FILE_EVENT";
     public static String START_OF_FILE_EVENT = "START_OF_FILE_EVENT";
     public static String LINE_EVENT = "LINE_EVENT";
