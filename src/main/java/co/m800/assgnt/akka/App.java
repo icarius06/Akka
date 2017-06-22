@@ -2,14 +2,14 @@ package co.m800.assgnt.akka;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
 import co.m800.assgnt.akka.actors.FileScanner;
 import co.m800.assgnt.akka.utils.Helper;
+import co.m800.assgnt.akka.utils.LogMessages;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
-import java.util.Scanner;
+import java.nio.file.NoSuchFileException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -33,18 +33,19 @@ public class App {
             String directory = Helper.getLogsFolder();
 
             if (!StringUtils.isEmpty(directory)) {
-                //#create-actors
-                final ActorRef fileScanner = actorSystem.actorOf(FileScanner.props(directory), "fileScanner");
-                fileScanner.tell(new FileScanner.ScanMessageEvent(), ActorRef.noSender());
-
-                //#sending message to FileScanner with dir to scan
                 log.info("Processing log files in \"" + directory + "\"");
+                //#create-file-scanner-actor
+                final ActorRef fileScanner = actorSystem.actorOf(FileScanner.props(directory), "fileScanner");
+                //#sending message to FileScanner with dir to scan
+                fileScanner.tell(new FileScanner.ScanMessageEvent(), ActorRef.noSender());
                 log.info(">>> Press ENTER to exit <<<");
                 System.in.read();
             } else {
-                System.out.print("\n Directory value cant be empty.");
+                log.log(Level.SEVERE, LogMessages.EMPTY_LOGS_DIR);
             }
         } catch (Exception e) {
+            if (e instanceof NoSuchFileException)
+                log.log(Level.SEVERE, LogMessages.MISSING_LOGS_DIR);//handle accordingly
             if (e instanceof NoSuchFieldException)
                 System.out.print(e.getMessage()); //handle accordingly
             if (e instanceof IOException)

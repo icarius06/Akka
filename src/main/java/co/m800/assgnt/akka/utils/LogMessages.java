@@ -18,4 +18,6 @@ public class LogMessages {
     public static String START_OF_FILE_EVENT = "START_OF_FILE_EVENT";
     public static String LINE_EVENT = "LINE_EVENT";
 
+    public static String EMPTY_LOGS_DIR = "Directory value cant be empty.Set Logs folder in resources/config.properties";
+    public static String MISSING_LOGS_DIR = "Set correct Logs folder in resources/config.properties";
 }

@@ -5,9 +5,10 @@ import akka.actor.Props;
 import co.m800.assgnt.akka.utils.LogMessages;
 
 import java.io.IOException;
-import java.nio.file.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.nio.file.DirectoryIteratorException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Created on 6/19/2017.
