@@ -39,7 +39,6 @@ public class Helper {
      */
     public static long getNoOfFilesInTestDir() throws IOException {
         Path path = Paths.get(getLogsFolder());
-
         return Files.list(path).count();
     }
 

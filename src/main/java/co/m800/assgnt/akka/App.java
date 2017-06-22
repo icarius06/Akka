@@ -5,6 +5,7 @@ import akka.actor.ActorSystem;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import co.m800.assgnt.akka.actors.FileScanner;
+import co.m800.assgnt.akka.utils.Helper;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
@@ -29,9 +30,7 @@ public class App {
     public static void main(String[] args) {
         final ActorSystem actorSystem = ActorSystem.create("first-akka");
         try {
-            System.out.print("\nEnter logs directory.");
-            Scanner sc = new Scanner(System.in);
-            String directory = sc.next();
+            String directory = Helper.getLogsFolder();
 
             if (!StringUtils.isEmpty(directory)) {
                 //#create-actors
